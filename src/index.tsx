@@ -1,12 +1,14 @@
 import {App} from 'app/components/App';
 import {store} from 'app/store';
 import {ConfigContainer} from 'modules/config/components/Config';
+import {Firebase} from 'modules/firebase/components/Firebase';
 import {LocaleProviderContainer} from 'modules/locale/components/LocaleProvider';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
 import 'styles/index.less';
+import firebaseConfig from './firebase-config.json';
 
 const root = document.getElementById('root');
 
@@ -21,7 +23,9 @@ function renderApp() {
           <LocaleProviderContainer>
             <BrowserRouter>
               <ConfigContainer>
-                <App />
+                <Firebase config={firebaseConfig}>
+                  <App />
+                </Firebase>
               </ConfigContainer>
             </BrowserRouter>
           </LocaleProviderContainer>

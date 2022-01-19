@@ -29,7 +29,7 @@ export class Example extends React.Component<TProps> {
    * Конструктор компонента.
    * @param {*} props Свойства переданные в компонент.
    */
-  // constructor(props: TExampleProps) {
+  // constructor(props: TProps) {
   //     super(props);
   // }
 
