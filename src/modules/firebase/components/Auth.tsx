@@ -15,9 +15,10 @@ export class Auth extends React.Component<TProps> {
    * Конструктор компонента.
    * @param {*} props Свойства переданные в компонент.
    */
-  // constructor(props: TProps) {
-  //   super(props);
-  // }
+  constructor(props: TProps) {
+    super(props);
+    console.log(props);
+  }
 
   /**
    * Вывести компонент.

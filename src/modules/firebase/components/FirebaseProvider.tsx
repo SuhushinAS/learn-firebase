@@ -1,7 +1,6 @@
 import {FirebaseOptions} from '@firebase/app';
 import {initializeApp} from 'firebase/app';
-import {FirebaseContext} from 'modules/firebase/context/FirebaseContext';
-import {TFirebaseContext} from 'modules/firebase/type';
+import {FirebaseContext, TFirebaseContext} from 'modules/firebase/context/FirebaseContext';
 import React from 'react';
 
 type TProps = {
@@ -12,7 +11,7 @@ type TProps = {
 /**
  * Пример компонента.
  */
-export class Firebase extends React.Component<TProps> {
+export class FirebaseProvider extends React.Component<TProps> {
   firebase: TFirebaseContext;
 
   /**
