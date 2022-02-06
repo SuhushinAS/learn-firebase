@@ -1,7 +1,7 @@
 import {FirebaseOptions} from '@firebase/app';
-import {withFirebase} from 'modules/firebase/context/FirebaseContext';
+import {initializeApp} from 'firebase/app';
+import {FirebaseContext, TFirebaseContext} from 'modules/firebase/context/FirebaseContext';
 import React from 'react';
-import {getAuth, signInAnonymously} from 'firebase/auth';
 
 type TProps = {
   children: React.ReactNode;
@@ -11,32 +11,25 @@ type TProps = {
 /**
  * Пример компонента.
  */
-export class Auth extends React.Component<TProps> {
+export class FirebaseProvider extends React.Component<TProps> {
+  firebase: TFirebaseContext;
+
   /**
    * Конструктор компонента.
    * @param {*} props Свойства переданные в компонент.
    */
   constructor(props: TProps) {
     super(props);
-    const auth = getAuth();
-    signInAnonymously(auth).then(this.onAuthSuccess).catch(this.onAuthError);
+    this.firebase = {
+      app: initializeApp(props.config),
+    };
   }
-
-  onAuthError = (...rest) => {
-    console.log(...rest);
-  };
-
-  onAuthSuccess = (...rest) => {
-    console.log(...rest);
-  };
 
   /**
    * Вывести компонент.
    * @return {*} Представление.
    */
   render() {
-    return null;
+    return <FirebaseContext.Provider value={this.firebase}>{this.props.children}</FirebaseContext.Provider>;
   }
 }
-
-export const FirebaseAuth = withFirebase(Auth);

@@ -1,7 +1,7 @@
 import {App} from 'app/components/App';
 import {store} from 'app/store';
 import {ConfigContainer} from 'modules/config/components/Config';
-import {Firebase} from 'modules/firebase/components/Firebase';
+import {FirebaseProvider} from 'modules/firebase/components/FirebaseProvider';
 import {LocaleProviderContainer} from 'modules/locale/components/LocaleProvider';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -23,9 +23,9 @@ function renderApp() {
           <LocaleProviderContainer>
             <BrowserRouter>
               <ConfigContainer>
-                <Firebase config={firebaseConfig}>
+                <FirebaseProvider config={firebaseConfig}>
                   <App />
-                </Firebase>
+                </FirebaseProvider>
               </ConfigContainer>
             </BrowserRouter>
           </LocaleProviderContainer>
