@@ -1,6 +1,7 @@
 import {FirebaseOptions} from '@firebase/app';
 import {withFirebase} from 'modules/firebase/context/FirebaseContext';
 import React from 'react';
+import {getAuth, signInAnonymously} from 'firebase/auth';
 
 type TProps = {
   children: React.ReactNode;
@@ -17,15 +18,24 @@ export class Auth extends React.Component<TProps> {
    */
   constructor(props: TProps) {
     super(props);
-    console.log(props);
+    const auth = getAuth();
+    signInAnonymously(auth).then(this.onAuthSuccess).catch(this.onAuthError);
   }
+
+  onAuthError = (...rest) => {
+    console.log(...rest);
+  };
+
+  onAuthSuccess = (...rest) => {
+    console.log(...rest);
+  };
 
   /**
    * Вывести компонент.
    * @return {*} Представление.
    */
   render() {
-    return this.props.children;
+    return null;
   }
 }
 

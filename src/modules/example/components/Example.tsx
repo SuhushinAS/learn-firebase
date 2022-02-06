@@ -30,7 +30,7 @@ export class Example extends React.Component<TProps> {
    * @param {*} props Свойства переданные в компонент.
    */
   // constructor(props: TProps) {
-  //     super(props);
+  //   super(props);
   // }
 
   /**
