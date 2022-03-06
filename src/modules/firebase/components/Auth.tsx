@@ -24,6 +24,10 @@ export class Auth extends React.Component<TProps> {
     this.provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
   }
 
+  /**
+   * Обработать успех.
+   * @param result Результат.
+   */
   onAuthSuccess = (result) => {
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const user = result.user;
@@ -31,6 +35,10 @@ export class Auth extends React.Component<TProps> {
     console.log({credential, result, user});
   };
 
+  /**
+   * Обработать ошибку.
+   * @param error Ошибка.
+   */
   onAuthError = (error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -40,6 +48,9 @@ export class Auth extends React.Component<TProps> {
     console.log({credential, email, errorCode, errorMessage});
   };
 
+  /**
+   * Обработать клик.
+   */
   onClick = () => {
     signInWithPopup(this.props.auth, this.provider).then(this.onAuthSuccess).catch(this.onAuthError);
   };
