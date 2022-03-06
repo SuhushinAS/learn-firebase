@@ -1,4 +1,5 @@
 import {FirebaseAuth} from 'modules/firebase/components/Auth';
+import {AuthProvider} from 'modules/firebase/components/AuthProvider';
 import React from 'react';
 
 type TProps = {};
@@ -14,7 +15,9 @@ export class Firebase extends React.Component<TProps> {
   render() {
     return (
       <div>
-        <FirebaseAuth />
+        <AuthProvider>
+          <FirebaseAuth />
+        </AuthProvider>
       </div>
     );
   }

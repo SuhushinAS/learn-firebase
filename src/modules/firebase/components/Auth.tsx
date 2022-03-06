@@ -1,33 +1,47 @@
-import {FirebaseOptions} from '@firebase/app';
-import {withFirebase} from 'modules/firebase/context/FirebaseContext';
+import {Auth as FAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth';
+import {withAuth} from 'modules/firebase/context/AuthContext';
 import React from 'react';
-import {getAuth, signInAnonymously} from 'firebase/auth';
 
 type TProps = {
+  auth: FAuth;
   children: React.ReactNode;
-  config: FirebaseOptions;
 };
 
 /**
  * Пример компонента.
  */
 export class Auth extends React.Component<TProps> {
+  provider = new GoogleAuthProvider();
+
   /**
    * Конструктор компонента.
    * @param {*} props Свойства переданные в компонент.
    */
   constructor(props: TProps) {
     super(props);
-    const auth = getAuth();
-    signInAnonymously(auth).then(this.onAuthSuccess).catch(this.onAuthError);
+
+    console.log(props);
+    this.provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
   }
 
-  onAuthError = (...rest) => {
-    console.log(...rest);
+  onAuthSuccess = (result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const user = result.user;
+
+    console.log({credential, result, user});
   };
 
-  onAuthSuccess = (...rest) => {
-    console.log(...rest);
+  onAuthError = (error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.email;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+
+    console.log({credential, email, errorCode, errorMessage});
+  };
+
+  onClick = () => {
+    signInWithPopup(this.props.auth, this.provider).then(this.onAuthSuccess).catch(this.onAuthError);
   };
 
   /**
@@ -35,8 +49,14 @@ export class Auth extends React.Component<TProps> {
    * @return {*} Представление.
    */
   render() {
-    return null;
+    return (
+      <div>
+        <button onClick={this.onClick} type="button">
+          auth
+        </button>
+      </div>
+    );
   }
 }
 
-export const FirebaseAuth = withFirebase(Auth);
+export const FirebaseAuth = withAuth(Auth);

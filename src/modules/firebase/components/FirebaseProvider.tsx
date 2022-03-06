@@ -12,24 +12,15 @@ type TProps = {
  * Пример компонента.
  */
 export class FirebaseProvider extends React.Component<TProps> {
-  firebase: TFirebaseContext;
-
-  /**
-   * Конструктор компонента.
-   * @param {*} props Свойства переданные в компонент.
-   */
-  constructor(props: TProps) {
-    super(props);
-    this.firebase = {
-      app: initializeApp(props.config),
-    };
-  }
+  value: TFirebaseContext = {
+    app: initializeApp(this.props.config),
+  };
 
   /**
    * Вывести компонент.
    * @return {*} Представление.
    */
   render() {
-    return <FirebaseContext.Provider value={this.firebase}>{this.props.children}</FirebaseContext.Provider>;
+    return <FirebaseContext.Provider value={this.value}>{this.props.children}</FirebaseContext.Provider>;
   }
 }
