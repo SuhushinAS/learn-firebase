@@ -1,6 +1,6 @@
 import {Auth as FAuth, GoogleAuthProvider, signInWithPopup, signOut, User as FUser} from 'firebase/auth';
+import {AuthForm} from 'modules/firebase/components/AuthForm';
 import {withAuth} from 'modules/firebase/context/AuthContext';
-import {Message} from 'modules/locale/components/Message';
 import React from 'react';
 
 type TProps = {
@@ -54,26 +54,7 @@ export class Auth extends React.Component<TProps, TState> {
    * @return {*} Представление.
    */
   render() {
-    const {user} = this.state;
-
-    if (user && user.displayName) {
-      return (
-        <div>
-          <h1>{user.displayName}</h1>
-          <button onClick={this.onSignOut} type="button">
-            <Message id="auth.action.signOut" />
-          </button>
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        <button onClick={this.onSignIn} type="button">
-          <Message id="auth.action.signIn" />
-        </button>
-      </div>
-    );
+    return <AuthForm onSignIn={this.onSignIn} onSignOut={this.onSignOut} user={this.state.user} />;
   }
 
   /**
@@ -84,7 +65,6 @@ export class Auth extends React.Component<TProps, TState> {
    */
   componentDidMount() {
     this.props.auth.onAuthStateChanged(this.onAuthStateChanged);
-    this.provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
   }
 
   /**
