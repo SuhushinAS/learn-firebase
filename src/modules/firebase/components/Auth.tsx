@@ -1,4 +1,4 @@
-import {Auth as FAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth';
+import {Auth as FAuth, GoogleAuthProvider, signInWithPopup, signOut, User as FUser} from 'firebase/auth';
 import {withAuth} from 'modules/firebase/context/AuthContext';
 import React from 'react';
 
@@ -7,28 +7,30 @@ type TProps = {
   children: React.ReactNode;
 };
 
+type TState = {
+  user?: FUser;
+};
+
 /**
  * Пример компонента.
  */
-export class Auth extends React.Component<TProps> {
+export class Auth extends React.Component<TProps, TState> {
   provider = new GoogleAuthProvider();
 
-  /**
-   * Конструктор компонента.
-   * @param {*} props Свойства переданные в компонент.
-   */
-  constructor(props: TProps) {
-    super(props);
+  state: TState = {};
 
-    console.log(props);
-    this.provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-  }
+  /**
+   * Обработать клик.
+   */
+  onSignIn = () => {
+    signInWithPopup(this.props.auth, this.provider).then(this.onSignInSuccess).catch(this.onSignInError);
+  };
 
   /**
    * Обработать успех.
    * @param result Результат.
    */
-  onAuthSuccess = (result) => {
+  onSignInSuccess = (result) => {
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const user = result.user;
 
@@ -39,7 +41,7 @@ export class Auth extends React.Component<TProps> {
    * Обработать ошибку.
    * @param error Ошибка.
    */
-  onAuthError = (error) => {
+  onSignInError = (error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     const email = error.email;
@@ -50,24 +52,55 @@ export class Auth extends React.Component<TProps> {
 
   /**
    * Обработать клик.
+   * @return * Результат.
    */
-  onClick = () => {
-    signInWithPopup(this.props.auth, this.provider).then(this.onAuthSuccess).catch(this.onAuthError);
-  };
+  onSignOut = () => signOut(this.props.auth);
 
   /**
    * Вывести компонент.
    * @return {*} Представление.
    */
   render() {
+    const {user} = this.state;
+
+    if (user && user.displayName) {
+      return (
+        <div>
+          <h1>{user.displayName}</h1>
+          <button onClick={this.onSignOut} type="button">
+            Sign Out
+          </button>
+        </div>
+      );
+    }
+
     return (
       <div>
-        <button onClick={this.onClick} type="button">
-          auth
+        <button onClick={this.onSignIn} type="button">
+          Sign In
         </button>
       </div>
     );
   }
+
+  /**
+   * Компонент примонтировался.
+   * В данный момент у нас есть возможность использовать refs,
+   * а следовательно это то самое место, где мы хотели бы указать установку фокуса.
+   * Так же, таймауты, ajax-запросы и взаимодействие с другими библиотеками стоит обрабатывать здесь.
+   */
+  componentDidMount() {
+    this.props.auth.onAuthStateChanged(this.onAuthStateChanged);
+    this.provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+  }
+
+  /**
+   * Обработать изменение состояния Auth.
+   * @param user Пользователь.
+   */
+  onAuthStateChanged = (user) => {
+    this.setState({user});
+  };
 }
 
 export const FirebaseAuth = withAuth(Auth);
