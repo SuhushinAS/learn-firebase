@@ -1,4 +1,6 @@
 {
+  "auth.action.signIn": "Войти",
+  "auth.action.signOut": "Выйти",
   "example.item.description": "Описание примера элемента",
   "example.list.description": "Описание примера списка",
   "example.list.title": "Пример списка",

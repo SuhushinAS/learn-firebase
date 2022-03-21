@@ -9,7 +9,7 @@ type TProps = {
 /**
  * Пример компонента.
  */
-export class AuthProvider extends React.Component<TProps> {
+export class AuthContextProvider extends React.Component<TProps> {
   value: TAuthContext = {
     auth: getAuth(),
   };

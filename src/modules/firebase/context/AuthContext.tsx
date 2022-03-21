@@ -13,7 +13,7 @@ export const AuthContext = React.createContext<TAuthContext | undefined>(undefin
  * @return Компонент c Auth.
  */
 export const withAuth = (Component) => {
-  return class ComponentWithAuth extends React.Component {
+  return class ComponentWithAuth extends React.Component<React.ComponentProps<typeof Component>> {
     renderComponent = (context) => <Component {...this.props} {...context} />;
 
     /**

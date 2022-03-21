@@ -13,7 +13,7 @@ export const FirebaseContext = React.createContext<TFirebaseContext | undefined>
  * @return Компонент c Firebase.
  */
 export const withFirebase = (Component) => {
-  return class ComponentWithFirebase extends React.Component {
+  return class ComponentWithFirebase extends React.Component<React.ComponentProps<typeof Component>> {
     renderComponent = (context) => <Component {...this.props} {...context} />;
 
     /**

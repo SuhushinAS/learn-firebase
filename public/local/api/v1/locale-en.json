@@ -1,4 +1,6 @@
 {
+  "auth.action.signIn": "Sign In",
+  "auth.action.signOut": "Sign Out",
   "example.item.description": "Example item description",
   "example.list.description": "Example list description",
   "example.list.title": "Example list",

@@ -1,5 +1,6 @@
 import {Auth as FAuth, GoogleAuthProvider, signInWithPopup, signOut, User as FUser} from 'firebase/auth';
 import {withAuth} from 'modules/firebase/context/AuthContext';
+import {Message} from 'modules/locale/components/Message';
 import React from 'react';
 
 type TProps = {
@@ -31,10 +32,7 @@ export class Auth extends React.Component<TProps, TState> {
    * @param result Результат.
    */
   onSignInSuccess = (result) => {
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const user = result.user;
-
-    console.log({credential, result, user});
+    GoogleAuthProvider.credentialFromResult(result);
   };
 
   /**
@@ -42,12 +40,7 @@ export class Auth extends React.Component<TProps, TState> {
    * @param error Ошибка.
    */
   onSignInError = (error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    const email = error.email;
-    const credential = GoogleAuthProvider.credentialFromError(error);
-
-    console.log({credential, email, errorCode, errorMessage});
+    GoogleAuthProvider.credentialFromError(error);
   };
 
   /**
@@ -68,7 +61,7 @@ export class Auth extends React.Component<TProps, TState> {
         <div>
           <h1>{user.displayName}</h1>
           <button onClick={this.onSignOut} type="button">
-            Sign Out
+            <Message id="auth.action.signOut" />
           </button>
         </div>
       );
@@ -77,7 +70,7 @@ export class Auth extends React.Component<TProps, TState> {
     return (
       <div>
         <button onClick={this.onSignIn} type="button">
-          Sign In
+          <Message id="auth.action.signIn" />
         </button>
       </div>
     );
